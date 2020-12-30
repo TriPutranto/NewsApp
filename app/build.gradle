@@ -1,0 +1,89 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
+}
+
+android {
+    compileSdkVersion Versions.compiledSdk
+
+    defaultConfig {
+        applicationId ApplicationId.id
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
+        versionCode Versions.versionCode
+        versionName Release.versionName
+
+        testInstrumentationRunner TestInstrumentation.testRunner
+
+        buildConfigField "String", "BASE_URL", "\"http://newsapi.org/v2/\""
+        buildConfigField "String", "API_KEY", "\"b3df4aa7b0aa4d329e6c89ad591d9dbc\""
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation AndroidLibraries.kotlin
+    implementation AndroidLibraries.appCompat
+    implementation AndroidLibraries.coreKtx
+    implementation AndroidLibraries.constraintLayout
+    implementation AndroidLibraries.legacy
+    implementation AndroidLibraries.preference
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+
+    //Testing
+    testImplementation Testing.jUnit
+    androidTestImplementation Testing.extJUnit
+    androidTestImplementation Testing.espressoCore
+
+    //Network
+    implementation Network.retrofit
+    implementation Network.converterGson
+    implementation Network.gson
+    implementation Network.okHttp
+
+    //ReactiveX
+    implementation ReactiveX.rxAndroid
+    implementation ReactiveX.rxJava
+    implementation ReactiveX.rxAdapter
+
+    //Design
+    implementation View.materialDesign
+    implementation View.glide
+    annotationProcessor View.glideCompiler
+    implementation View.ahBottomNav
+    implementation View.shimmer
+
+    //Architectures
+    implementation Architectures.lifeCycleExtension
+    annotationProcessor Architectures.lifeCycleCompiler
+
+    //Koin
+    implementation Koin.koinAndroid
+    implementation Koin.koinAndroidScope
+    implementation Koin.koinAndroidViewModel
+
+    //Paging
+    implementation Paging.pagingRuntime
+
+    //Room
+    implementation Room.roomRuntime
+    kapt Room.roomCompiler
+}

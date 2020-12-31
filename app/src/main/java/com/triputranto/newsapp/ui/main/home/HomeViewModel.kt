@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.triputranto.newsapp.base.BaseViewModel
 import com.triputranto.newsapp.data.entity.Articles
 import com.triputranto.newsapp.data.repository.AppRepository
+import com.triputranto.newsapp.utils.Const.STATUS_SUCCESS
 import com.triputranto.newsapp.utils.NetworkState
 
 /**
@@ -24,8 +25,19 @@ class HomeViewModel(private val appRepository: AppRepository) : BaseViewModel() 
         _networkState.postValue(NetworkState.LOADING)
         appRepository.getTopHeadlines(country).subscribe({
             it.let {
-                _networkState.postValue(NetworkState.LOADED)
-                _articles.postValue(it.list)
+                when (it.status) {
+                    STATUS_SUCCESS -> {
+                        if (!it.list.isNullOrEmpty()) {
+                            _networkState.postValue(NetworkState.LOADED)
+                            _articles.postValue(it.list)
+                        } else {
+                            _networkState.postValue(NetworkState.EMPTY)
+                        }
+                    }
+                    else -> {
+                        _networkState.postValue(NetworkState.ERROR)
+                    }
+                }
             }
         }, {
             _networkState.postValue(NetworkState.ERROR)

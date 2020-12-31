@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.layout_item_main.view.*
  * Created by Ahmad Tri Putranto on 29/12/2020.
  * */
 class MainAdapter(private val listener: (String) -> Unit) :
-    RecyclerView.Adapter<MainAdapter.ViewHolder>() {
+        RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
     private val articles = ArrayList<Articles>()
 
@@ -34,7 +34,6 @@ class MainAdapter(private val listener: (String) -> Unit) :
         } else {
             ITEM_LOADED
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -68,7 +67,7 @@ class MainAdapter(private val listener: (String) -> Unit) :
                 iv_articles.load(articles.urlToImage)
                 tv_title.text = articles.title
                 tv_author.text = articles.author
-                tv_published.text = articles.getPublished(articles.publishedAt.toString())
+                tv_published.text = articles.getPublished(articles.publishedAt)
                 tv_source.text = articles.source?.name
             }
         }

@@ -5,5 +5,7 @@ package com.triputranto.newsapp.utils
  * */
 object Const {
     const val NETWORK_TIMEOUT = 60L
+    const val STATUS_SUCCESS = "ok"
+    const val STATUS_ERROR = "error"
 
 }

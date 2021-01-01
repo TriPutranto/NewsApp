@@ -5,7 +5,9 @@ import com.triputranto.newsapp.BuildConfig.API_KEY
 import com.triputranto.newsapp.BuildConfig.BASE_URL
 import com.triputranto.newsapp.data.source.remote.ApiService
 import com.triputranto.newsapp.data.source.remote.RemoteDataSource
+import com.triputranto.newsapp.data.source.remote.RemoteDataSourceFactory
 import com.triputranto.newsapp.utils.Const.NETWORK_TIMEOUT
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -21,26 +23,26 @@ val networkModule = module {
 
     single {
         OkHttpClient().newBuilder()
-            .connectTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
-            .readTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
-            .writeTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .retryOnConnectionFailure(true)
-            .addInterceptor { chain ->
-                val url =
-                    chain.request().url.newBuilder().addQueryParameter("apiKey", API_KEY).build()
-                val request = chain.request().newBuilder().url(url).build()
-                chain.proceed(request)
-            }.build()
+                .connectTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
+                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .retryOnConnectionFailure(true)
+                .addInterceptor { chain ->
+                    val url =
+                            chain.request().url.newBuilder().addQueryParameter("apiKey", API_KEY).build()
+                    val request = chain.request().newBuilder().url(url).build()
+                    chain.proceed(request)
+                }.build()
     }
 
     single {
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(get())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+                .baseUrl(BASE_URL)
+                .client(get())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
     }
 
     single {
@@ -48,7 +50,15 @@ val networkModule = module {
     }
 
     single {
-        RemoteDataSource(get())
+        CompositeDisposable()
+    }
+
+    single {
+        RemoteDataSourceFactory(get())
+    }
+
+    single {
+        RemoteDataSource(get(), get())
     }
 
 }

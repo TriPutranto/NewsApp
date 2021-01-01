@@ -12,6 +12,11 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET("top-headlines/")
-    fun getTopHeadlines(@Query("country") country: String): Observable<BaseResponse<Articles>>
+    fun getTopHeadlines(
+            @Query("country") country: String? = null,
+            @Query("page") page: Int?= null,
+            @Query("pageSize") pageSize: Int? = null,
+            @Query("q") query: String? = null
+    ): Observable<BaseResponse<Articles>>
 
 }

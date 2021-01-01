@@ -1,9 +1,7 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-    id 'kotlin-android-extensions'
-}
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion Versions.compiledSdk
@@ -18,7 +16,7 @@ android {
         testInstrumentationRunner TestInstrumentation.testRunner
 
         buildConfigField "String", "BASE_URL", "\"http://newsapi.org/v2/\""
-        buildConfigField "String", "API_KEY", "\"b3df4aa7b0aa4d329e6c89ad591d9dbc\""
+        buildConfigField "String", "API_KEY", "\"b4aacb4b434341448af6a960bbec1358\""
     }
 
     buildTypes {
@@ -27,6 +25,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -43,10 +42,6 @@ dependencies {
     implementation AndroidLibraries.constraintLayout
     implementation AndroidLibraries.legacy
     implementation AndroidLibraries.preference
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
     //Testing
     testImplementation Testing.jUnit
@@ -85,5 +80,6 @@ dependencies {
 
     //Room
     implementation Room.roomRuntime
+    implementation Room.roomRxJava
     kapt Room.roomCompiler
 }

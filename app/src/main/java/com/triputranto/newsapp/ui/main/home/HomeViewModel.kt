@@ -1,46 +1,25 @@
 package com.triputranto.newsapp.ui.main.home
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.triputranto.newsapp.base.BaseViewModel
+import androidx.lifecycle.ViewModel
+import androidx.paging.PagedList
 import com.triputranto.newsapp.data.entity.Articles
 import com.triputranto.newsapp.data.repository.AppRepository
-import com.triputranto.newsapp.utils.Const.STATUS_SUCCESS
 import com.triputranto.newsapp.utils.NetworkState
 
 /**
  * Created by Ahmad Tri Putranto on 29/12/2020.
  * */
-class HomeViewModel(private val appRepository: AppRepository) : BaseViewModel() {
+class HomeViewModel(private val appRepository: AppRepository) : ViewModel() {
 
-    private val _networkState = MutableLiveData<NetworkState>()
-    val networkState: LiveData<NetworkState>
-        get() = _networkState
-
-    private val _articles = MutableLiveData<List<Articles>>()
-    val articles: LiveData<List<Articles>>
-        get() = _articles
-
-    fun getTopHeadlines(country: String) {
-        _networkState.postValue(NetworkState.LOADING)
-        appRepository.getTopHeadlines(country).subscribe({
-            it.let {
-                when (it.status) {
-                    STATUS_SUCCESS -> {
-                        if (!it.list.isNullOrEmpty()) {
-                            _networkState.postValue(NetworkState.LOADED)
-                            _articles.postValue(it.list)
-                        } else {
-                            _networkState.postValue(NetworkState.EMPTY)
-                        }
-                    }
-                    else -> {
-                        _networkState.postValue(NetworkState.ERROR)
-                    }
-                }
-            }
-        }, {
-            _networkState.postValue(NetworkState.ERROR)
-        }).addTo(compositeDisposable)
+    val networkState: LiveData<NetworkState> by lazy {
+        appRepository.getNetworkState()
     }
+
+    val topHeadlinePagedList: LiveData<PagedList<Articles>> by lazy {
+        appRepository.getTopHeadlines()
+    }
+
+    fun listIsEmpty(): Boolean = topHeadlinePagedList.value?.isEmpty() ?: true
+
 }

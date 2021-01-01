@@ -9,5 +9,7 @@ class NetworkState(val message: String) {
         val EMPTY: NetworkState = NetworkState("Data is empty")
         val LOADING: NetworkState = NetworkState("Running")
         val ERROR: NetworkState = NetworkState("Something went wrong")
+        val ENDOFLIST: NetworkState = NetworkState("You have Reached the end")
+
     }
 }

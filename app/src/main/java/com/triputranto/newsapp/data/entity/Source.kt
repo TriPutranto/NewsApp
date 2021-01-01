@@ -1,11 +1,16 @@
 package com.triputranto.newsapp.data.entity
 
-import com.google.gson.annotations.SerializedName
+import android.os.Parcelable
+import androidx.room.ColumnInfo
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Created by Ahmad Tri Putranto on 29/12/2020.
  * */
+@Parcelize
 data class Source(
-    @SerializedName("id") val id: String? = null,
-    @SerializedName("name") val name: String? = null
-)
+    @ColumnInfo(name = "idSource")
+    val id: String? = "",
+    @ColumnInfo(name = "nameSource")
+    val name: String? = ""
+) : Parcelable

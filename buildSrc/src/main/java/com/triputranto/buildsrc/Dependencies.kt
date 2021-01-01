@@ -18,13 +18,12 @@ object TestInstrumentation {
 
 object Versions {
     //Android
-    const val kotlinVersion = "1.4.21"
-    const val gradleVersion = "4.1.1"
+    const val kotlinVersion = "1.3.61"
+    const val gradleVersion = "3.6.1"
     const val minSdk = 21
     const val compiledSdk = 29
     const val targetSdk = 29
     const val versionCode = 1
-
 
     const val appCompat = "1.2.0"
     const val coreKtx = "1.3.2"
@@ -66,7 +65,7 @@ object Versions {
     const val pagingVersion = "2.1.2"
 
     //Room
-    const val roomVersion = "2.2.5"
+    const val roomVersion = "2.2.6"
 }
 
 object AndroidLibraries {
@@ -125,4 +124,5 @@ object Paging {
 object Room {
     const val roomRuntime = "androidx.room:room-runtime:${Versions.roomVersion}"
     const val roomCompiler = "androidx.room:room-compiler:${Versions.roomVersion}"
+    const val roomRxJava = "androidx.room:room-rxjava2:${Versions.roomVersion}"
 }

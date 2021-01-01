@@ -2,7 +2,6 @@ package com.triputranto.newsapp.ui.main
 
 import android.graphics.Color
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -55,8 +54,6 @@ class MainActivity : AppCompatActivity() {
         bottom_navigation.titleState = AHBottomNavigation.TitleState.ALWAYS_SHOW
         bottom_navigation.currentItem = 0
         bottom_navigation.inactiveColor = Color.parseColor("#99FFFFFF")
-
-
         bottom_navigation.isTranslucentNavigationEnabled = true
 
         bottom_navigation.setOnTabSelectedListener { position, wasSelected ->
@@ -68,9 +65,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 1 -> if (!search.isVisible) {
                     setupTransactionVisibility(search, home, favorite)
-                } else {
-                    Toast.makeText(this, "search", Toast.LENGTH_SHORT).show()
-//                    startActivity<SearchActivity>()
                 }
                 2 -> if (!favorite.isVisible) {
                     setupTransactionVisibility(favorite, search, home)

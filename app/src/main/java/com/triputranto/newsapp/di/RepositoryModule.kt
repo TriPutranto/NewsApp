@@ -9,6 +9,6 @@ import org.koin.dsl.module
  * */
 val repositoryModule = module {
     factory<AppRepository> {
-        AppRepositoryImpl(get())
+        AppRepositoryImpl(get(), get(), get())
     }
 }

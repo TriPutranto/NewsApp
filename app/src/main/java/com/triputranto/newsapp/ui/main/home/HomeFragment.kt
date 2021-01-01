@@ -1,84 +1,67 @@
 package com.triputranto.newsapp.ui.main.home
 
-import android.content.Context
-import android.net.ConnectivityManager
 import android.os.Bundle
-import android.os.Handler
-import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.triputranto.newsapp.R
+import com.triputranto.newsapp.base.BaseFragment
 import com.triputranto.newsapp.data.entity.Articles
+import com.triputranto.newsapp.data.source.remote.RemoteDataSource
 import com.triputranto.newsapp.ui.main.MainAdapter
-import com.triputranto.newsapp.utils.*
+import com.triputranto.newsapp.utils.NetworkState
+import com.triputranto.newsapp.utils.hide
+import com.triputranto.newsapp.utils.load
+import com.triputranto.newsapp.utils.show
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.status_layout.*
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
 /**
  * Created by Ahmad Tri Putranto on 29/12/2020.
  * */
-class HomeFragment : Fragment(R.layout.fragment_home) {
+class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private val viewModel: HomeViewModel by viewModel()
     private lateinit var mainAdapter: MainAdapter
+    private val remoteDataSource: RemoteDataSource by inject()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupView()
         if (verifyAvailableNetwork(context)) {
-            setupData()
             observeViewModel()
         } else {
-            setupNetworkState(resources.getString(R.string.offline_network), R.drawable.ic_baseline_network_check_24)
+            setupNetworkState(
+                resources.getString(R.string.offline_network),
+                R.drawable.ic_baseline_network_check_24
+            )
         }
     }
 
     private fun observeViewModel() {
-        observe(viewModel.articles) {
+        val articles = Articles(country = "us")
+        remoteDataSource.setArticle(articles)
+        viewModel.topHeadlinePagedList.observe(viewLifecycleOwner, Observer {
             rv_home.show()
-            if (it.size >= 20) {
-                initListener(it)
-                mainAdapter.setListItem(it.subList(0, 20))
-            } else {
-                mainAdapter.setListItem(it)
-            }
-        }
-        observe(viewModel.networkState) {
+            rl_status.hide()
+            mainAdapter.submitList(it)
+        })
+        viewModel.networkState.observe(viewLifecycleOwner, Observer{
             when (it) {
                 NetworkState.LOADING -> {
-                    rv_home.show()
-                    rl_status.hide()
+                    rv_home.hide()
+                    pb_home.show()
                 }
                 NetworkState.LOADED -> {
-                    rl_status.hide()
-                }
-                NetworkState.EMPTY -> {
-                    setupNetworkState(it.message, R.drawable.ic_baseline_youtube_searched_for_24)
+                    rv_home.show()
+                    pb_home.hide()
                 }
                 NetworkState.ERROR -> {
+                    pb_home.hide()
                     setupNetworkState(it.message, R.drawable.ic_baseline_error_24)
                 }
             }
-        }
-    }
-
-    private fun initListener(list: List<Articles>) {
-        rv_home.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
-                val countItem = linearLayoutManager.itemCount
-                val lastVisiblePosition = linearLayoutManager.findLastVisibleItemPosition()
-                val isLastPosition = countItem.minus(1) == lastVisiblePosition
-                if (isLastPosition && countItem < list.size) {
-                    pb_home.show()
-                    Handler().postDelayed({
-                        mainAdapter.setListItem(list)
-                        pb_home.hide()
-                    }, 1000)
-                }
-            }
+            if (!viewModel.listIsEmpty()) mainAdapter.setNetworkState(it)
         })
     }
 
@@ -91,31 +74,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         mb_status.text = resources.getString(R.string.reload)
         mb_status.setOnClickListener {
             if (verifyAvailableNetwork(context)) {
-                setupData()
                 observeViewModel()
             }
         }
     }
 
-    private fun setupData() {
-        viewModel.getTopHeadlines("us")
-    }
-
     private fun setupView() {
-        mainAdapter = MainAdapter {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-        }
+        setupToolbar(toolbar)
+        mainAdapter = MainAdapter()
         rv_home.apply {
             this.adapter = mainAdapter
             layoutManager = LinearLayoutManager(context)
         }
-    }
-
-    @Suppress("DEPRECATION")
-    private fun verifyAvailableNetwork(context: Context?): Boolean {
-        val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = connectivityManager.activeNetworkInfo
-        return networkInfo != null && networkInfo.isConnected && networkInfo.isAvailable
     }
 
 }

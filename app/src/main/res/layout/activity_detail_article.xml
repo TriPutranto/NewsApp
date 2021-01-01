@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.detail.DetailArticleActivity">
+
+    <ImageView
+        android:id="@+id/iv_articles"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/tv_published"
+        android:layout_width="wrap_content"
+        android:textColor="@color/teal_200"
+        tools:text="21 januari 2020"
+        android:layout_below="@+id/iv_articles"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textSize="12sp"
+        android:layout_marginBottom="4dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:textColor="@color/white"
+        android:layout_below="@+id/tv_published"
+        android:textSize="18sp"
+        android:layout_toStartOf="@+id/iv_favorite"
+        tools:text="Android Developer"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="4dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_author"
+        android:layout_width="wrap_content"
+        android:textColor="@color/white_40"
+        android:layout_below="@id/tv_title"
+        android:textSize="12sp"
+        tools:text="Android Developer"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_description"
+        android:layout_width="wrap_content"
+        android:textColor="@color/white_60"
+        android:textSize="14sp"
+        android:layout_below="@id/tv_author"
+        tools:text="Daniel Dumile, the rapper and producer best known as MF DOOM, died Oct. 31, according to Facebook message posted on Dec. 31 by his wife"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/white_60"
+        android:textSize="14sp"
+        android:layout_below="@id/tv_description"
+        tools:text="Daniel Dumile, the rapper and producer best known as MF DOOM, died Oct. 31, according to Facebook message posted on Dec. 31 by his wife"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/source"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="3dp"
+        android:ellipsize="end"
+        android:layout_marginTop="@dimen/dimens_8dp"
+        android:text="@string/source"
+        android:textColor="@color/white_40"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_source"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="@dimen/dimens_8dp"
+        android:layout_toEndOf="@+id/source"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        tools:text="@string/google" />
+
+    <ImageView
+        android:id="@+id/iv_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_articles"
+        tools:src="@drawable/ic_baseline_favorite_24"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="24dp"/>
+
+</RelativeLayout>

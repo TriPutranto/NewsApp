@@ -1,6 +1,6 @@
 package com.triputranto.newsapp.ui.detail
 
-import androidx.lifecycle.MutableLiveData
+
 import com.triputranto.newsapp.base.BaseViewModel
 import com.triputranto.newsapp.data.entity.Articles
 import com.triputranto.newsapp.data.repository.AppRepository

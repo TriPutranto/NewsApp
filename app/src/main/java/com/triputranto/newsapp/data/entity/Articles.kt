@@ -56,8 +56,7 @@ data class Articles(
             val date: Date = inputFormat.parse(publishedAt)
             outputFormat.format(date)
         } catch (e: Exception) {
-            "date cant be convert"
+            ""
         }
-
     }
 }

@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.triputranto.newsapp.R
 import com.triputranto.newsapp.data.entity.Articles
 import com.triputranto.newsapp.ui.detail.DetailArticleActivity
-import com.triputranto.newsapp.utils.*
+import com.triputranto.newsapp.ui.detail.DetailArticleActivity.Companion.KEY_ARTICLE
+import com.triputranto.newsapp.utils.inflate
+import com.triputranto.newsapp.utils.load
 import kotlinx.android.synthetic.main.layout_item_main.view.*
 
 class SearchAdapter :
@@ -44,10 +46,11 @@ class SearchAdapter :
                 iv_articles.load(articles?.urlToImage)
                 tv_title.text = articles?.title
                 tv_author.text = articles?.author
+                tv_published.text = articles?.getPublished(articles.publishedAt.toString())
                 tv_source.text = articles?.source?.name
                 setOnClickListener {
                     val intent = Intent(context, DetailArticleActivity::class.java)
-                    intent.putExtra(DetailArticleActivity.KEY_ARTICLE, articles)
+                    intent.putExtra(KEY_ARTICLE, articles)
                     context.startActivity(intent)
                 }
             }

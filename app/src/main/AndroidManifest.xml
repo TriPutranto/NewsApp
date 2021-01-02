@@ -13,9 +13,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.NewsApp"
-        android:usesCleartextTraffic="true"
-        tools:targetApi="m">
+        android:theme="@style/Theme.NewsApp">
         <activity android:name=".ui.detail.DetailArticleActivity" />
         <activity android:name=".ui.SplashActivity">
             <intent-filter>

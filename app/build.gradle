@@ -15,7 +15,7 @@ android {
 
         testInstrumentationRunner TestInstrumentation.testRunner
 
-        buildConfigField "String", "BASE_URL", "\"http://newsapi.org/v2/\""
+        buildConfigField "String", "BASE_URL", "\"https://newsapi.org/v2/\""
         buildConfigField "String", "API_KEY", "\"b4aacb4b434341448af6a960bbec1358\""
     }
 
